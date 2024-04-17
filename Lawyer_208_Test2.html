@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <meta charset="utf-8">
+  <title>Lawyer Test 2</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+ 
+  <style>
+    html{
+      height: 100%;
+      width: 100%;
+      background-color: #333333;
+    }
+    #container {
+      padding: 100px;
+      margin: 0;
+      background-color: #333333;
+    }
+  </style>
+</head>
+ 
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+
+var colors = [];
+var notEmpty = false;
+var lessThanTen = true;
+
+function fillArray()
+{
+  var swatches = [];
+  for (var i = 0; i < colors.length; ++i)
+  {
+    swatches.push(<Card key = {colors[i] + 1} color = {colors[i]} />);
+  }
+
+  return swatches;
+}
+
+  function randColor()
+  {
+    var colorCode = "#";
+    var num;
+    
+    
+ 
+      for (var i = 0; i < 6; i++) {
+        num = Math.floor(Math.random() * 16);
+
+          if (num < 10)
+          {
+            colorCode += num;
+          }
+
+          else if (num == 10)
+          {
+            colorCode += "A";
+          }
+
+          else if (num == 11)
+          {
+            colorCode += "B";
+          }
+
+          else if (num == 12)
+          {
+            colorCode += "C";
+          }
+
+          else if (num == 13)
+          {
+            colorCode += "D";
+          }
+
+          else if (num == 14)
+          {
+            colorCode += "E";
+          }
+
+          else 
+          {
+            colorCode += "F";
+          }
+    }
+
+    return colorCode;
+    
+  }
+
+class Square extends React.Component {
+  render() {
+    var squareStyle = {
+      height: 150,
+      backgroundColor: this.props.color
+    };
+    return(
+      <div style={squareStyle}>
+ 
+</div>
+    );
+  }
+}
+  
+class Label extends React.Component {
+  render() {
+    var labelStyle = {
+      textAlign: "center",
+      fontFamily: "sans-serif",
+      fontWeight: "bold",
+      padding: 13,
+      margin: 0
+    };
+    return (
+      <p style={labelStyle}>{this.props.color}</p>
+    );
+  }
+}
+ 
+class Card extends React.Component {
+  render() {
+    var cardStyle = {
+      height: 200,
+      width: 150,
+      padding: 0,
+      marginLeft: 0,
+      marginRight: 20,
+      marginTop: 20,
+      backgroundColor: "#FFF",
+      display: "inline-block",
+      boxShadow: "0px 0px 5px #666"
+    };
+ 
+    return (
+      <div style={cardStyle}>
+        <Square color={this.props.color}/>
+        <Label color={this.props.color}/>
+      </div>
+    );
+
+  }
+}
+
+class CountDownTimer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      strikes: 5
+    };
+
+ 
+    this.timerTick = this.timerTick.bind(this);
+  }
+  
+  
+  timerTick() {
+    this.setState({
+      strikes: this.state.strikes - 1,
+    });
+  }
+
+  componentDidMount() {
+    setInterval(this.timerTick, 1000);
+  }
+ 
+  render() {
+    var counterStyle = {
+      color: "#66FFFF",
+      fontSize: 50
+    };
+ 
+    var count = this.state.strikes.toLocaleString();
+   
+    if (colors.length == 0)
+    {
+      lessThanTen = true;
+    }
+    if (colors.length == 10)
+    {
+      lessThanTen = false;
+    }
+if (lessThanTen)
+{
+  
+        if (count == 0 && lessThanTen)
+        {
+          this.state.strikes = 5;
+          colors.push(randColor());
+        }
+  }
+  else if (!lessThanTen)
+  {
+      if (count == 0 && !lessThanTen)
+        {
+          this.state.strikes = 5;
+          colors.pop();
+          //console.log(colors.length);
+        }
+  }
+  return (
+        <h1 style={counterStyle}>{count}</h1>
+      );
+  }
+}
+
+class CountDownTimerDisplay extends React.Component {
+  render() {
+    var commonStyle = {
+      margin: 0,
+      padding: 0
+    };
+ 
+    var divStyle = {
+      width: 250,
+      textAlign: "center",
+      backgroundColor: "#020202",
+      padding: 40,
+      margin: "auto",
+      fontFamily: "sans-serif",
+      color: "#999999",
+      borderRadius: 10
+    };
+ 
+    var textStyles = {
+      emphasis: {
+        fontSize: 38,
+        ...commonStyle
+      },
+      smallEmphasis: {
+        ...commonStyle
+      },
+      small: {
+        fontSize: 17,
+        opacity: 0.5,
+        ...commonStyle
+      }
+    };
+ 
+    return (
+      <div style={divStyle}>
+        <CountDownTimer />
+        <h2 style={textStyles.smallEmphasis}>Count Down</h2>
+      </div>
+    );
+  }
+}
+
+class PrintArray extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      strikes: 5
+    };
+
+    this.timerTick = this.timerTick.bind(this);
+  }
+  
+  
+  timerTick() {
+    this.setState({
+      strikes: this.state.strikes - 1,
+    });
+  }
+
+  componentDidMount() {
+    setInterval(this.timerTick, 1000);
+  }
+ 
+  render() {
+   
+    var count = this.state.strikes.toLocaleString();
+
+      if (count == 0)
+      {
+        this.state.strikes = 5;
+      }
+
+  return (
+        fillArray()
+      );
+  }
+  
+}
+
+    ReactDOM.render(
+      <div>
+        {<CountDownTimerDisplay />}
+        {<PrintArray />}
+      </div>,
+      document.querySelector("#container")
+    );
+  </script>
+</body>
+ 
+</html>
